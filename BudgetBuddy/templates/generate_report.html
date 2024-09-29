@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f7f8fc, #e6efff);
+            color: #333;
+            padding: 0;
+            margin: 0;
+        }
+
+        .header {
+            background: linear-gradient(to right, #6a89cc, #4a69bd);
+            color: white;
+            text-align: center;
+            padding: 60px 0;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .custom-select {
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            font-size: 1.1rem;
+            color: #555;
+            background: #fafbfc;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+            appearance: none;
+        }
+
+        .custom-select:hover {
+            border-color: #6a89cc;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-select:focus {
+            border-color: #4a69bd;
+            outline: none;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-generate {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            color: white;
+            background: linear-gradient(to right, #4a69bd, #6a89cc);
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn-generate:hover {
+            background: linear-gradient(to right, #3f54a3, #5569b5);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .message {
+            font-size: 1.2rem;
+            color: #d9534f;
+            margin-top: 30px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .charts {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .report-img {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .report-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            .form-group {
+                margin-bottom: 20px;
+            }
+            .btn-generate {
+                font-size: 1rem;
+                padding: 12px 30px;
+            }
+        }
+
+        /* Menu Button Styles */
+        .menu-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #f06595);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            text-align: center;
+            line-height: 50px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+            z-index: 1000; /* Ensure it is above other elements */
+        }
+
+        .menu-button:hover {
+            background: linear-gradient(45deg, #f06595, #ff6b6b);
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Dropdown Menu Styles */
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 60px; /* Adjust based on button size */
+            right: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 1000; /* Ensure it is above other elements */
+        }
+
+        .dropdown.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            color: #333;
+            text-decoration: none;
+            display: block;
+            padding: 12px 20px;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown a:hover {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-button" onclick="toggleDropdown()">&#9776;</button>
+    <div class="dropdown" id="dropdownMenu">
+        <a href="add_expense">Add Transaction</a>
+        <a href="view_expense">View Transaction</a>
+        <a href="{{ url_for('logout') }}">Log Out</a>
+    </div>
+
+    <header class="header">
+        <h1>Generate Report</h1>
+    </header>
+    <div class="container">
+        <form method="POST" action="{{ url_for('generate_report') }}">
+            <div class="form-group">
+                <label for="report_type">Select Report Type:</label>
+                <select id="report_type" name="report_type" class="custom-select">
+                    <option value="summary">Summary Statistics</option>
+                    <option value="category">Category Breakdown</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn-generate">Generate Report</button>
+            </div>
+        </form>
+
+        {% if message %}
+            <div class="message">{{ message }}</div>
+        {% endif %}
+
+        {% if report_image_url %}
+            <div class="charts">
+                <img src="{{ report_image_url }}" alt="Report Image" class="report-img">
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Toggle the dropdown menu visibility
+        function toggleDropdown() {
+            var dropdown = document.getElementById('dropdownMenu');
+            dropdown.classList.toggle('show');
+            // Add event listener to close dropdown when clicking outside
+            if (dropdown.classList.contains('show')) {
+                document.addEventListener('click', outsideClickListener);
+            } else {
+                document.removeEventListener('click', outsideClickListener);
+            }
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        function outsideClickListener(event) {
+            var dropdown = document.getElementById('dropdownMenu');
+            var button = document.querySelector('.menu-button');
+            if (!dropdown.contains(event.target) && !button.contains(event.target)) {
+                dropdown.classList.remove('show');
+                document.removeEventListener('click', outsideClickListener);
+            }
+        }
+
+        // Simulate loading effect on button click
+        document.addEventListener('DOMContentLoaded', function() {
+            const generateButton = document.querySelector('.btn-generate');
+
+            generateButton.addEventListener('click', function() {
+                generateButton.classList.add('loading');
+                setTimeout(() => {
+                    generateButton.classList.remove('loading');
+                }, 2000); // Simulate a loading effect for 2 seconds
+            });
+        });
+    </script>
+</body>
+</html>

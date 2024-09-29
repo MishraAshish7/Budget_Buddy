@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Expense</title>
+    <style>
+        /* Universal Reset and Global Settings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e2e2e2 0%, #ffffff 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        /* Container Styles */
+        .container {
+            width: 100%;
+            max-width: 550px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            animation: fadeIn 1s ease-in-out;
+            border: 1px solid #e0e0e0;
+        }
+
+        .container:hover {
+            border-color: #007bff;
+        }
+
+        /* Fade-in animation for container */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header Styles */
+        h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        h2::after {
+            content: '';
+            width: 60px;
+            height: 4px;
+            background-color: #007bff;
+            display: block;
+            margin: 10px auto 0;
+            border-radius: 4px;
+        }
+
+        /* Form Group Styles */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            font-size: 16px;
+            color: #666;
+            text-align: left;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #007bff;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+            background: #ffffff;
+        }
+
+        .form-group input:focus ~ label,
+        .form-group select:focus ~ label,
+        .form-group textarea:focus ~ label {
+            color: #007bff;
+        }
+
+        /* Button Styling */
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 16px;
+            font-size: 18px;
+            color: #fff;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 10px 20px rgba(0, 123, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #0056b3, #007bff);
+            box-shadow: 0 12px 25px rgba(0, 123, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.5s ease;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .btn:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Flash Message Styling */
+        .message {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 8px;
+            color: #fff;
+            background: #333;
+            transition: all 0.3s ease;
+        }
+
+        .message.success {
+            background: #28a745;
+        }
+
+        .message.error {
+            background: #dc3545;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                max-width: 100%;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            .form-group label,
+            .form-group input,
+            .form-group select,
+            .form-group textarea,
+            .btn {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 22px;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                font-size: 14px;
+            }
+
+            .btn {
+                font-size: 16px;
+                padding: 14px;
+            }
+        }
+    .menu-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #f06595);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            text-align: center;
+            line-height: 50px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+        }
+        .menu-button:hover {
+            background: linear-gradient(45deg, #f06595, #ff6b6b);
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 60px; /* Adjust based on button size */
+            right: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 1000;
+        }
+        .dropdown.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .dropdown a {
+            color: #333;
+            text-decoration: none;
+            display: block;
+            padding: 12px 20px;
+            transition: background-color 0.3s;
+        }
+        .dropdown a:hover {
+            background-color: #f4f4f4;
+        }
+
+    </style>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <button class="menu-button" onclick="toggleDropdown()">&#9776;</button>
+    <div class="dropdown" id="dropdownMenu">
+        <a href="view_expense">View Transaction</a>
+        <a href="generate_report">Generate Report</a>
+        <a href="{{ url_for('logout') }}">Log Out</a>
+    </div>
+
+    <div class="container">
+        <h2>Add Transaction</h2>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="message {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <form method="POST" action="{{ url_for('add_expense') }}">
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="amount_type">Amount Type:</label>
+                <select id="amount_type" name="amount_type" required>
+                    <option value="Expense">Expense</option>
+                    <option value="Income">Income</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <select id="category" name="category" required>
+                    <option value="A">Food & Dining</option>
+                    <option value="B">Transportation</option>
+                    <option value="C">Housing</option>
+                    <option value="D">Healthcare</option>
+                    <option value="E">Entertainment</option>
+                    <option value="F">Education</option>
+                    <option value="G">Personal Care</option>
+                    <option value="H">Clothing and Accessories</option>
+                    <option value="I">Travel</option>
+                    <option value="J">Miscellaneous</option>
+                    <option value="K">Salary</option>
+                    <option value="L">Earned Income</option>
+                    <option value="M">Investment Income</option>
+                    <option value="N">Royalties</option>
+                    <option value="O">Passive Income</option>
+                    <option value="P">Residual Income</option>
+                    <option value="Q">Portfolio Income</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        // Toggle the dropdown menu visibility
+        function toggleDropdown() {
+            var dropdown = document.getElementById('dropdownMenu');
+            dropdown.classList.toggle('show');
+            // Add event listener to close dropdown when clicking outside
+            if (dropdown.classList.contains('show')) {
+                document.addEventListener('click', outsideClickListener);
+            } else {
+                document.removeEventListener('click', outsideClickListener);
+            }
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        function outsideClickListener(event) {
+            var dropdown = document.getElementById('dropdownMenu');
+            var button = document.querySelector('.menu-button');
+            if (!dropdown.contains(event.target) && !button.contains(event.target)) {
+                dropdown.classList.remove('show');
+                document.removeEventListener('click', outsideClickListener);
+            }
+        }
+    </script>
+</body>
+</html>
+
