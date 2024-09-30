@@ -50,8 +50,8 @@ BudgetBuddy/
 ├── view_expense.html      # Page to view logged expenses
 ├── login.html            # Login page for users
 ├── register.html         # Registration page for new users
-├── expenses.csv          # CSV file to store user expenses
-├── users.csv             # CSV file to store user data
+├── BB_expense_data.csv          # CSV file to store user expenses
+├── BB_user_credentials_data.csv             # CSV file to store user data
 └── Budget_Buddy_final.py  # Main Flask application file
 ```
 
@@ -63,8 +63,8 @@ BudgetBuddy/
 - **view_expense.html**: Lists all logged expenses for the user, allowing for review and management.
 - **login.html**: Interface for existing users to log in.
 - **register.html**: Allows new users to create an account.
-- **expenses.csv**: Stores all user expenses in a structured format.
-- **users.csv**: Stores user credentials and information.
+- **BB_expense_data.csv**: Stores all user expenses in a structured format.
+- **BB_user_credentials_data.csv**: Stores user credentials and information.
 - **Budget_Buddy_final.py**: The back-end logic using Flask, including routes for user authentication and expense management.
 
 ---
@@ -188,6 +188,3 @@ Each HTML file is crafted to provide a seamless user experience. The templates a
 - **Notifications**: Implement features to alert users when they are close to exceeding their budget.
 - **Export Options**: Allow users to export their expense data as CSV or PDF.
 
----
-
-Feel free to modify any section further to better match your project specifics or preferences. This README should serve as a thorough introduction to your project for potential users and collaborators. If you need additional information or further adjustments, just let me know!
